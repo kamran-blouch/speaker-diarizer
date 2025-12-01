@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { Clock, Users } from 'lucide-react';
+import { DownloadReport } from './DownloadReport';
 
 interface Utterance {
   speaker: string;
@@ -63,6 +64,10 @@ export function TranscriptResult({ utterances, audioDuration }: TranscriptResult
     <div className="space-y-6">
       {/* Stats Header */}
       <div className="card-gradient rounded-xl border border-border p-6">
+        <div className="flex items-start justify-between mb-4">
+          <h3 className="text-lg font-semibold text-foreground">Analysis Results</h3>
+          <DownloadReport utterances={utterances} audioDuration={audioDuration} />
+        </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="text-center">
             <div className="flex items-center justify-center gap-2 mb-1">
