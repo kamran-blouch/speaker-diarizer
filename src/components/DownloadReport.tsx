@@ -22,6 +22,8 @@ interface DownloadReportProps {
 }
 
 export function DownloadReport({ utterances, audioDuration }: DownloadReportProps) {
+  console.log('DownloadReport rendered with', utterances.length, 'utterances');
+  
   const formatTime = (ms: number) => {
     const seconds = Math.floor(ms / 1000);
     const minutes = Math.floor(seconds / 60);
@@ -128,7 +130,7 @@ export function DownloadReport({ utterances, audioDuration }: DownloadReportProp
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="gap-2">
+        <Button variant="secondary" className="gap-2 bg-primary/10 border border-primary/30 text-primary hover:bg-primary/20">
           <Download className="h-4 w-4" />
           Download Report
         </Button>

@@ -32,6 +32,8 @@ const speakerBadgeColors: Record<string, string> = {
 };
 
 export function TranscriptResult({ utterances, audioDuration }: TranscriptResultProps) {
+  console.log('TranscriptResult rendered:', { utterances: utterances.length, audioDuration });
+  
   const formatTime = (ms: number) => {
     const seconds = Math.floor(ms / 1000);
     const minutes = Math.floor(seconds / 60);
