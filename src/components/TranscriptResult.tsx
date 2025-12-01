@@ -64,12 +64,15 @@ export function TranscriptResult({ utterances, audioDuration }: TranscriptResult
 
   return (
     <div className="space-y-6">
+      {/* Download Section */}
+      <div className="card-gradient rounded-xl border border-primary/30 p-6">
+        <h3 className="text-lg font-semibold text-foreground mb-4">Download Report</h3>
+        <DownloadReport utterances={utterances} audioDuration={audioDuration} />
+      </div>
+
       {/* Stats Header */}
       <div className="card-gradient rounded-xl border border-border p-6">
-        <div className="flex items-start justify-between mb-4">
-          <h3 className="text-lg font-semibold text-foreground">Analysis Results</h3>
-          <DownloadReport utterances={utterances} audioDuration={audioDuration} />
-        </div>
+        <h3 className="text-lg font-semibold text-foreground mb-4">Analysis Results</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="text-center">
             <div className="flex items-center justify-center gap-2 mb-1">

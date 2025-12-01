@@ -1,12 +1,5 @@
 import { Download, FileText, FileJson, Subtitles, FileCode } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { toast } from 'sonner';
 
 interface Utterance {
@@ -152,7 +145,7 @@ export function DownloadReport({ utterances, audioDuration }: DownloadReportProp
             <span style="background: ${colors.badge}; color: #0a0a0f; padding: 4px 12px; border-radius: 20px; font-weight: 600; font-size: 14px;">
               Speaker ${u.speaker}
             </span>
-            <span style="color: #888; font-family: 'JetBrains Mono', monospace; font-size: 13px;">
+            <span style="color: #888; font-family: monospace; font-size: 13px;">
               ${formatTime(u.start)} - ${formatTime(u.end)}
             </span>
           </div>
@@ -179,11 +172,10 @@ export function DownloadReport({ utterances, audioDuration }: DownloadReportProp
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Speaker Diarization Report</title>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: linear-gradient(145deg, #0a0a0f, #0d0d14);
       color: #e5e5e5;
       min-height: 100vh;
@@ -210,17 +202,13 @@ export function DownloadReport({ utterances, audioDuration }: DownloadReportProp
     .subtitle { text-align: center; color: #888; margin-bottom: 32px; }
     .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
     .stat { text-align: center; }
-    .stat-label { color: #888; font-size: 14px; margin-bottom: 4px; display: flex; align-items: center; justify-content: center; gap: 6px; }
-    .stat-value { font-size: 24px; font-weight: 600; }
+    .stat-label { color: #888; font-size: 14px; margin-bottom: 4px; }
+    .stat-value { font-size: 24px; font-weight: 600; color: #14b8a6; }
     .speaker-legend { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; margin-top: 16px; }
     h2 { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
     .timeline-container { position: relative; height: 32px; background: #1f1f2e; border-radius: 8px; overflow: hidden; }
     .timeline-labels { display: flex; justify-content: space-between; color: #666; font-size: 12px; margin-top: 8px; }
     .footer { text-align: center; color: #666; font-size: 12px; margin-top: 32px; }
-    @media print {
-      body { background: #0a0a0f; }
-      .card { break-inside: avoid; }
-    }
   </style>
 </head>
 <body>
@@ -231,17 +219,11 @@ export function DownloadReport({ utterances, audioDuration }: DownloadReportProp
     <div class="card">
       <div class="stats-grid">
         <div class="stat">
-          <div class="stat-label">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#14b8a6" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            Duration
-          </div>
+          <div class="stat-label">Duration</div>
           <div class="stat-value">${formatDuration(audioDuration)}</div>
         </div>
         <div class="stat">
-          <div class="stat-label">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#14b8a6" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            Speakers
-          </div>
+          <div class="stat-label">Speakers</div>
           <div class="stat-value">${uniqueSpeakers.length}</div>
         </div>
       </div>
@@ -268,52 +250,39 @@ export function DownloadReport({ utterances, audioDuration }: DownloadReportProp
 </html>`;
   };
 
-  const handleDownloadTxt = () => {
-    downloadFile(generateTxt(), 'diarization-report.txt', 'text/plain');
-  };
-
-  const handleDownloadSrt = () => {
-    downloadFile(generateSrt(), 'diarization-subtitles.srt', 'text/plain');
-  };
-
-  const handleDownloadJson = () => {
-    downloadFile(generateJson(), 'diarization-data.json', 'application/json');
-  };
-
-  const handleDownloadHtml = () => {
-    downloadFile(generateStyledHtml(), 'diarization-report.html', 'text/html');
-  };
-
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="secondary" className="gap-2 bg-primary/10 border border-primary/30 text-primary hover:bg-primary/20">
-          <Download className="h-4 w-4" />
-          Download Report
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-52">
-        <DropdownMenuItem onClick={handleDownloadHtml} className="gap-2 cursor-pointer">
-          <FileCode className="h-4 w-4 text-primary" />
-          <div>
-            <div className="font-medium">Styled Report</div>
-            <div className="text-xs text-muted-foreground">Same theme (.html)</div>
-          </div>
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleDownloadTxt} className="gap-2 cursor-pointer">
-          <FileText className="h-4 w-4" />
-          Plain Text (.txt)
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={handleDownloadSrt} className="gap-2 cursor-pointer">
-          <Subtitles className="h-4 w-4" />
-          Subtitles (.srt)
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={handleDownloadJson} className="gap-2 cursor-pointer">
-          <FileJson className="h-4 w-4" />
-          JSON Data (.json)
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div className="flex flex-wrap gap-2">
+      <Button 
+        onClick={() => downloadFile(generateStyledHtml(), 'diarization-report.html', 'text/html')}
+        className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
+      >
+        <FileCode className="h-4 w-4" />
+        Styled HTML
+      </Button>
+      <Button 
+        onClick={() => downloadFile(generateTxt(), 'diarization-report.txt', 'text/plain')}
+        variant="outline"
+        className="gap-2"
+      >
+        <FileText className="h-4 w-4" />
+        TXT
+      </Button>
+      <Button 
+        onClick={() => downloadFile(generateSrt(), 'diarization-subtitles.srt', 'text/plain')}
+        variant="outline"
+        className="gap-2"
+      >
+        <Subtitles className="h-4 w-4" />
+        SRT
+      </Button>
+      <Button 
+        onClick={() => downloadFile(generateJson(), 'diarization-data.json', 'application/json')}
+        variant="outline"
+        className="gap-2"
+      >
+        <FileJson className="h-4 w-4" />
+        JSON
+      </Button>
+    </div>
   );
 }
