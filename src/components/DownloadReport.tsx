@@ -244,7 +244,7 @@ export function DownloadReport({ utterances, audioDuration }: DownloadReportProp
       ${utteranceHtml}
     </div>
 
-    <p class="footer">Speaker Diarization Report • Powered by AssemblyAI</p>
+    <p class="footer">Speaker Diarization Report</p>
   </div>
 </body>
 </html>`;

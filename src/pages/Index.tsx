@@ -58,8 +58,8 @@ const Index = () => {
             <span className="gradient-text">Speaker Diarization</span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Upload your audio and let AI identify who spoke when. 
-            Powered by AssemblyAI's advanced speech recognition.
+            Upload your audio and let AI identify who spoke when.
+            Advanced speech recognition powered by AI.
           </p>
         </header>
 
@@ -132,7 +132,7 @@ const Index = () => {
         {/* Footer */}
         <footer className="mt-16 text-center text-sm text-muted-foreground">
           <p>
-            Built with AssemblyAI • Speaker identification powered by AI
+            Speaker Diarization • AI-Powered Audio Analysis
           </p>
         </footer>
       </div>
