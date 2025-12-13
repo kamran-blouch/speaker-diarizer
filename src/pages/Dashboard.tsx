@@ -40,7 +40,7 @@ export default function Dashboard() {
             user_id: user.id,
             file_name: selectedFile.name,
             full_text: result.text,
-            utterances: result.utterances as unknown as Record<string, unknown>,
+            utterances: JSON.parse(JSON.stringify(result.utterances)),
             audio_duration: result.audioDuration,
             speakers_count: uniqueSpeakers,
             status: 'completed',
