@@ -83,7 +83,7 @@ export default function Pricing() {
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: '1s' }} />
       </div>
 
-      <main className="flex-1 relative z-10 pt-24 pb-20">
+      <main id="main-content" className="flex-1 relative z-10 pt-24 pb-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
