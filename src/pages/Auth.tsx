@@ -205,6 +205,26 @@ export default function Auth() {
               {errors.password && (
                 <p className="text-sm text-destructive">{errors.password}</p>
               )}
+              {mode === 'signup' && password && !errors.password && (
+                <div className="space-y-1.5 pt-1">
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 h-1.5 bg-muted rounded-full overflow-hidden">
+                      <div
+                        className={`h-full transition-all ${getPasswordStrength(password).color}`}
+                        style={{ width: `${(getPasswordStrength(password).score / 5) * 100}%` }}
+                      />
+                    </div>
+                    <span className="text-xs text-muted-foreground w-14 text-right">
+                      {getPasswordStrength(password).label}
+                    </span>
+                  </div>
+                </div>
+              )}
+              {mode === 'signup' && (
+                <p className="text-xs text-muted-foreground">
+                  Must be 8+ characters with uppercase, lowercase, and a number.
+                </p>
+              )}
             </div>
 
             <Button
@@ -213,13 +233,23 @@ export default function Auth() {
               disabled={loading}
             >
               {loading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
+                <Loader2 className="h-4 w-4 animate-spin" aria-label="Loading" />
               ) : mode === 'signup' ? (
                 'Create Account'
               ) : (
                 'Sign In'
               )}
             </Button>
+
+            {mode === 'signup' && (
+              <p className="text-xs text-muted-foreground text-center">
+                By creating an account, you agree to our{' '}
+                <Link to="/about" className="text-primary hover:underline">Terms</Link>
+                {' '}and acknowledge our{' '}
+                <Link to="/about" className="text-primary hover:underline">Privacy Policy</Link>.
+                Audio files are encrypted and never stored permanently.
+              </p>
+            )}
           </form>
 
           <p className="mt-6 text-center text-sm text-muted-foreground">
