@@ -125,10 +125,11 @@ export function Navbar() {
                   key={link.href}
                   to={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  aria-current={isActive(link.href) ? 'page' : undefined}
+                  className={`px-4 py-2 rounded-lg text-sm transition-colors ${
                     isActive(link.href)
-                      ? 'bg-primary/10 text-primary'
-                      : 'text-muted-foreground hover:bg-muted'
+                      ? 'bg-primary/10 text-primary font-semibold'
+                      : 'text-muted-foreground font-medium hover:bg-muted'
                   }`}
                 >
                   {link.label}
