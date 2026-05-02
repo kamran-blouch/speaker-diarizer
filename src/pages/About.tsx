@@ -44,7 +44,7 @@ export default function About() {
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: '1s' }} />
       </div>
 
-      <main className="flex-1 relative z-10 pt-24 pb-20">
+      <main id="main-content" className="flex-1 relative z-10 pt-24 pb-20">
         <div className="container mx-auto px-4">
           {/* Hero */}
           <div className="text-center mb-20">
@@ -60,7 +60,7 @@ export default function About() {
           </div>
 
           {/* Waveform */}
-          <div className="h-24 mb-20">
+          <div className="h-24 mb-20" aria-hidden="true">
             <WaveformVisual />
           </div>
 
@@ -83,9 +83,9 @@ export default function About() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20" role="list" aria-label="Key statistics">
             {stats.map((stat, index) => (
-              <div key={index} className="text-center p-6 bg-card border border-border rounded-xl">
+              <div key={index} role="listitem" className="text-center p-6 bg-card border border-border rounded-xl">
                 <div className="text-3xl md:text-4xl font-bold gradient-text mb-2">
                   {stat.value}
                 </div>

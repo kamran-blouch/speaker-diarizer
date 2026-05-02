@@ -23,6 +23,12 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <ScrollToTop />
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-background focus:rounded-md focus:font-semibold"
+        >
+          Skip to main content
+        </a>
         <AuthProvider>
           <Routes>
             <Route path="/" element={<Landing />} />

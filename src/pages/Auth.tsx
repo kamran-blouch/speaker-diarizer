@@ -10,7 +10,25 @@ import { z } from 'zod';
 import { WaveformVisual } from '@/components/WaveformVisual';
 
 const emailSchema = z.string().email('Please enter a valid email address');
-const passwordSchema = z.string().min(6, 'Password must be at least 6 characters');
+const signupPasswordSchema = z
+  .string()
+  .min(8, 'Password must be at least 8 characters')
+  .regex(/[A-Z]/, 'Password must include an uppercase letter')
+  .regex(/[a-z]/, 'Password must include a lowercase letter')
+  .regex(/[0-9]/, 'Password must include a number');
+const signinPasswordSchema = z.string().min(1, 'Password is required');
+
+function getPasswordStrength(pw: string): { score: number; label: string; color: string } {
+  let score = 0;
+  if (pw.length >= 8) score++;
+  if (pw.length >= 12) score++;
+  if (/[A-Z]/.test(pw) && /[a-z]/.test(pw)) score++;
+  if (/[0-9]/.test(pw)) score++;
+  if (/[^A-Za-z0-9]/.test(pw)) score++;
+  if (score <= 1) return { score: 1, label: 'Weak', color: 'bg-destructive' };
+  if (score <= 3) return { score: 3, label: 'Medium', color: 'bg-yellow-500' };
+  return { score: 5, label: 'Strong', color: 'bg-green-500' };
+}
 
 export default function Auth() {
   const [searchParams] = useSearchParams();
@@ -35,17 +53,18 @@ export default function Auth() {
 
   const validateForm = () => {
     const newErrors: { email?: string; password?: string } = {};
-    
+
     const emailResult = emailSchema.safeParse(email);
     if (!emailResult.success) {
       newErrors.email = emailResult.error.errors[0].message;
     }
-    
-    const passwordResult = passwordSchema.safeParse(password);
+
+    const schema = mode === 'signup' ? signupPasswordSchema : signinPasswordSchema;
+    const passwordResult = schema.safeParse(password);
     if (!passwordResult.success) {
       newErrors.password = passwordResult.error.errors[0].message;
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -186,6 +205,26 @@ export default function Auth() {
               {errors.password && (
                 <p className="text-sm text-destructive">{errors.password}</p>
               )}
+              {mode === 'signup' && password && !errors.password && (
+                <div className="space-y-1.5 pt-1">
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 h-1.5 bg-muted rounded-full overflow-hidden">
+                      <div
+                        className={`h-full transition-all ${getPasswordStrength(password).color}`}
+                        style={{ width: `${(getPasswordStrength(password).score / 5) * 100}%` }}
+                      />
+                    </div>
+                    <span className="text-xs text-muted-foreground w-14 text-right">
+                      {getPasswordStrength(password).label}
+                    </span>
+                  </div>
+                </div>
+              )}
+              {mode === 'signup' && (
+                <p className="text-xs text-muted-foreground">
+                  Must be 8+ characters with uppercase, lowercase, and a number.
+                </p>
+              )}
             </div>
 
             <Button
@@ -194,13 +233,23 @@ export default function Auth() {
               disabled={loading}
             >
               {loading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
+                <Loader2 className="h-4 w-4 animate-spin" aria-label="Loading" />
               ) : mode === 'signup' ? (
                 'Create Account'
               ) : (
                 'Sign In'
               )}
             </Button>
+
+            {mode === 'signup' && (
+              <p className="text-xs text-muted-foreground text-center">
+                By creating an account, you agree to our{' '}
+                <Link to="/about" className="text-primary hover:underline">Terms</Link>
+                {' '}and acknowledge our{' '}
+                <Link to="/about" className="text-primary hover:underline">Privacy Policy</Link>.
+                Audio files are encrypted and never stored permanently.
+              </p>
+            )}
           </form>
 
           <p className="mt-6 text-center text-sm text-muted-foreground">

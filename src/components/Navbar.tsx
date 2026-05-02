@@ -26,13 +26,13 @@ export function Navbar() {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
+    <nav aria-label="Main navigation" className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
+          <Link to="/" aria-label="Speaker Diarization — Home" className="flex items-center gap-2">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent">
-              <Mic className="h-5 w-5 text-background" />
+              <Mic className="h-5 w-5 text-background" aria-hidden="true" />
             </div>
             <span className="font-semibold text-lg gradient-text hidden sm:block">
               Speaker Diarization
@@ -40,13 +40,16 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-6">
+          <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 to={link.href}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  isActive(link.href) ? 'text-primary' : 'text-muted-foreground'
+                aria-current={isActive(link.href) ? 'page' : undefined}
+                className={`px-3 py-2 rounded-md text-sm transition-colors hover:text-primary hover:bg-primary/5 ${
+                  isActive(link.href)
+                    ? 'text-primary font-semibold bg-primary/10'
+                    : 'text-muted-foreground font-medium'
                 }`}
               >
                 {link.label}
@@ -92,7 +95,7 @@ export function Navbar() {
                   <Link to="/auth">Sign In</Link>
                 </Button>
                 <Button size="sm" className="bg-gradient-to-r from-primary to-accent text-background" asChild>
-                  <Link to="/auth?mode=signup">Get Started</Link>
+                  <Link to="/auth?mode=signup">Sign Up Free</Link>
                 </Button>
               </>
             )}
@@ -102,11 +105,13 @@ export function Navbar() {
           <button
             className="md:hidden p-2"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileMenuOpen}
           >
             {mobileMenuOpen ? (
-              <X className="h-6 w-6 text-foreground" />
+              <X className="h-6 w-6 text-foreground" aria-hidden="true" />
             ) : (
-              <Menu className="h-6 w-6 text-foreground" />
+              <Menu className="h-6 w-6 text-foreground" aria-hidden="true" />
             )}
           </button>
         </div>
@@ -120,10 +125,11 @@ export function Navbar() {
                   key={link.href}
                   to={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  aria-current={isActive(link.href) ? 'page' : undefined}
+                  className={`px-4 py-2 rounded-lg text-sm transition-colors ${
                     isActive(link.href)
-                      ? 'bg-primary/10 text-primary'
-                      : 'text-muted-foreground hover:bg-muted'
+                      ? 'bg-primary/10 text-primary font-semibold'
+                      : 'text-muted-foreground font-medium hover:bg-muted'
                   }`}
                 >
                   {link.label}
@@ -170,7 +176,7 @@ export function Navbar() {
                     onClick={() => setMobileMenuOpen(false)}
                     className="px-4 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-primary to-accent text-background text-center"
                   >
-                    Get Started
+                    Sign Up Free
                   </Link>
                 </>
               )}

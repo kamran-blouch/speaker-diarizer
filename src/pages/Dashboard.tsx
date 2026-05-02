@@ -104,7 +104,7 @@ export default function Dashboard() {
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: '1s' }} />
       </div>
 
-      <main className="flex-1 relative z-10 pt-24 pb-12">
+      <main id="main-content" className="flex-1 relative z-10 pt-24 pb-12">
         <div className="container mx-auto px-4 max-w-4xl">
           {/* Header */}
           <header className="text-center mb-12">
