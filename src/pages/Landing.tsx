@@ -71,9 +71,9 @@ export default function Landing() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      
+      <main id="main-content">
       {/* Hero Section */}
-      <section className="relative pt-24 pb-20 overflow-hidden">
+      <section aria-labelledby="hero-heading" className="relative pt-24 pb-20 overflow-hidden">
         {/* Background Effects */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-20 left-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[100px] animate-pulse-glow" />
@@ -88,7 +88,7 @@ export default function Landing() {
                 <span className="text-sm text-primary font-medium">AI-Powered Audio Analysis</span>
               </div>
               
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+              <h1 id="hero-heading" className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
                 Identify <span className="gradient-text">Who Spoke</span> When in Your Audio
               </h1>
               
@@ -145,9 +145,9 @@ export default function Landing() {
       </section>
 
       {/* Waveform Section */}
-      <section className="py-12 border-y border-border bg-card/30">
+      <section aria-hidden="true" className="py-12 border-y border-border bg-card/30">
         <div className="container mx-auto px-4">
-          <div className="h-24">
+          <div className="h-24" role="presentation">
             <WaveformVisual />
           </div>
         </div>
@@ -235,14 +235,15 @@ export default function Landing() {
               
               <Button size="lg" className="bg-gradient-to-r from-primary to-accent text-background font-semibold glow-primary" asChild>
                 <Link to="/auth?mode=signup">
-                  Start Analyzing Now
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                  Upload Your First Audio
+                  <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
                 </Link>
               </Button>
             </div>
           </div>
         </div>
       </section>
+      </main>
 
       <Footer />
     </div>
