@@ -22,7 +22,7 @@ export function useDiarization() {
   const [status, setStatus] = useState<DiarizationStatus>('idle');
   const [result, setResult] = useState<DiarizationResult | null>(null);
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const pollingRef = useRef<NodeJS.Timeout | null>(null);
+  const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const clearPolling = useCallback(() => {
     if (pollingRef.current) {
