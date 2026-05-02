@@ -54,17 +54,17 @@ export default function Landing() {
     {
       number: '01',
       title: 'Upload Audio',
-      description: 'Drag and drop your audio file or click to browse. Supports MP3, WAV, M4A, and more.',
+      description: 'Drag and drop or browse to upload. Supports MP3, WAV, M4A, FLAC, OGG, and WebM up to 2 hours.',
     },
     {
       number: '02',
       title: 'AI Analysis',
-      description: 'Our AI identifies speakers and transcribes the conversation with high accuracy.',
+      description: 'Our AI identifies each speaker and transcribes the conversation with timestamps and 95%+ accuracy.',
     },
     {
       number: '03',
-      title: 'Get Results',
-      description: 'Review the color-coded transcript and download in your preferred format.',
+      title: 'Get Speaker-Tagged Results',
+      description: 'Review the color-coded transcript and download in TXT, SRT, JSON, or styled HTML format.',
     },
   ];
 
