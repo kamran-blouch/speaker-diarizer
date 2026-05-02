@@ -10,7 +10,25 @@ import { z } from 'zod';
 import { WaveformVisual } from '@/components/WaveformVisual';
 
 const emailSchema = z.string().email('Please enter a valid email address');
-const passwordSchema = z.string().min(6, 'Password must be at least 6 characters');
+const signupPasswordSchema = z
+  .string()
+  .min(8, 'Password must be at least 8 characters')
+  .regex(/[A-Z]/, 'Password must include an uppercase letter')
+  .regex(/[a-z]/, 'Password must include a lowercase letter')
+  .regex(/[0-9]/, 'Password must include a number');
+const signinPasswordSchema = z.string().min(1, 'Password is required');
+
+function getPasswordStrength(pw: string): { score: number; label: string; color: string } {
+  let score = 0;
+  if (pw.length >= 8) score++;
+  if (pw.length >= 12) score++;
+  if (/[A-Z]/.test(pw) && /[a-z]/.test(pw)) score++;
+  if (/[0-9]/.test(pw)) score++;
+  if (/[^A-Za-z0-9]/.test(pw)) score++;
+  if (score <= 1) return { score: 1, label: 'Weak', color: 'bg-destructive' };
+  if (score <= 3) return { score: 3, label: 'Medium', color: 'bg-yellow-500' };
+  return { score: 5, label: 'Strong', color: 'bg-green-500' };
+}
 
 export default function Auth() {
   const [searchParams] = useSearchParams();
@@ -35,17 +53,18 @@ export default function Auth() {
 
   const validateForm = () => {
     const newErrors: { email?: string; password?: string } = {};
-    
+
     const emailResult = emailSchema.safeParse(email);
     if (!emailResult.success) {
       newErrors.email = emailResult.error.errors[0].message;
     }
-    
-    const passwordResult = passwordSchema.safeParse(password);
+
+    const schema = mode === 'signup' ? signupPasswordSchema : signinPasswordSchema;
+    const passwordResult = schema.safeParse(password);
     if (!passwordResult.success) {
       newErrors.password = passwordResult.error.errors[0].message;
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
