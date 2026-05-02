@@ -61,19 +61,24 @@ export default function Auth() {
       if (mode === 'signup') {
         const { error } = await signUp(email, password, fullName);
         if (error) {
-          if (error.message.includes('already registered')) {
+          if (error.message.includes('already registered') || error.message.includes('already been registered')) {
             toast.error('This email is already registered. Please sign in instead.');
           } else {
             toast.error(error.message);
           }
         } else {
-          toast.success('Account created successfully!');
-          navigate('/dashboard');
+          toast.success('Check your email to verify your account before signing in.', {
+            duration: 6000,
+          });
+          setMode('signin');
+          setPassword('');
         }
       } else {
         const { error } = await signIn(email, password);
         if (error) {
-          if (error.message.includes('Invalid login credentials')) {
+          if (error.message.includes('Email not confirmed')) {
+            toast.error('Please verify your email address first. Check your inbox for the verification link.');
+          } else if (error.message.includes('Invalid login credentials')) {
             toast.error('Invalid email or password. Please try again.');
           } else {
             toast.error(error.message);
